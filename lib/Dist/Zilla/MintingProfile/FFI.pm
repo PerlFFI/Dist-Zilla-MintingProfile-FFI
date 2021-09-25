@@ -23,8 +23,8 @@ package Dist::Zilla::MintingProfile::FFI {
 =head1 DESCRIPTION
 
 This is a L<Dist::Zilla> minting profile for creating L<FFI::Platypus> bindings.
-It uses a reasonable template and the L<[@Starter][Dist::Zilla::PluginBundle::Starter>
-or L<[@Starter::Git][Dist::Zilla::PluginBundle::Starter::Git> bundle plus some
+It uses a reasonable template and the L<[@Starter]|Dist::Zilla::PluginBundle::Starter>
+or L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git> bundle plus some
 FFI specific plugins.
 
 =head1 SEE ALSO
