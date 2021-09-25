@@ -11,8 +11,8 @@ dzil new -P FFI Foo::FFI
 # DESCRIPTION
 
 This is a [Dist::Zilla](https://metacpan.org/pod/Dist::Zilla) minting profile for creating [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) bindings.
-It uses a reasonable template and the [\[@Starter\]\[Dist::Zilla::PluginBundle::Starter](https://metacpan.org/pod/[@Starter][Dist::Zilla::PluginBundle::Starter)
-or [\[@Starter::Git\]\[Dist::Zilla::PluginBundle::Starter::Git](https://metacpan.org/pod/[@Starter::Git][Dist::Zilla::PluginBundle::Starter::Git) bundle plus some
+It uses a reasonable template and the [\[@Starter\]](https://metacpan.org/pod/Dist::Zilla::PluginBundle::Starter)
+or [\[@Starter::Git\]](https://metacpan.org/pod/Dist::Zilla::PluginBundle::Starter::Git) bundle plus some
 FFI specific plugins.
 
 # SEE ALSO
