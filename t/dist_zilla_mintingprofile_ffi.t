@@ -12,6 +12,9 @@ subtest 'basic' => sub {
     { global_config_root => 'corpus/dist_zilla_mintingprofile_ffi' },
   );
 
+  $tzil->chrome->set_response_for("Library name (for libfoo.so or foo.dll enter 'foo')", 'frooble');
+  $tzil->chrome->set_response_for('Fallback Alien name', 'Alien::libfrooble');
+
   $tzil->mint_dist;
 
   my $mint_dir = path($tzil->tempdir)->child('mint');

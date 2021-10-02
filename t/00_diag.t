@@ -16,6 +16,7 @@ $modules{$_} = $_ for qw(
   Dist::Zilla::Role::MintingProfile::ShareDir
   Dist::Zilla::Role::ModuleMaker
   ExtUtils::MakeMaker
+  File::ShareDir::Install
   Moose
   Path::Tiny
   Test2::V0
