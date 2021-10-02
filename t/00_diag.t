@@ -10,7 +10,11 @@ my %modules;
 my $post_diag;
 
 $modules{$_} = $_ for qw(
+  Dist::Zilla::File::InMemory
+  Dist::Zilla::Role::FileGatherer
+  Dist::Zilla::Role::FileMunger
   Dist::Zilla::Role::MintingProfile::ShareDir
+  Dist::Zilla::Role::ModuleMaker
   ExtUtils::MakeMaker
   Moose
   Path::Tiny

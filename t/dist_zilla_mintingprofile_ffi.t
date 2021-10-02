@@ -30,6 +30,7 @@ subtest 'basic' => sub {
     Changes
     dist.ini
     lib/Foo/FFI.pm
+    lib/Foo/FFI/Lib.pm
   )], 'minted the correct files';
 
 };
