@@ -16,9 +16,8 @@ package Dist::Zilla::Plugin::FFI::Mint {
     is      => 'ro',
     isa     => 'Str',
     lazy    => 1,
-    default => sub {
-      # FIXME
-      'foo',
+    default => sub ($self) {
+      $self->zilla->chrome->prompt_str("Library name (for libfoo.so or foo.dll enter 'foo')");
     },
   );
 
@@ -26,9 +25,8 @@ package Dist::Zilla::Plugin::FFI::Mint {
     is      => 'ro',
     isa     => 'Str',
     lazy    => 1,
-    default => sub {
-      # FIXME
-      'Alien::libfoo',
+    default => sub ($self) {
+      $self->zilla->chrome->prompt_str("Fallback Alien name");
     },
   );
 
