@@ -43,21 +43,41 @@ package Dist::Zilla::Plugin::FFI::Mint {
   );
 
   has lib_package => (
-    is       => 'rw',
+    is       => 'ro',
     isa      => 'Str',
     init_arg => undef,
+    lazy     => 1,
+    default  => sub ($self) {
+      $self->module_package . "::Lib";
+    },
   );
 
   has lib_filename => (
-    is       => 'rw',
+    is       => 'ro',
     isa      => 'Str',
     init_arg => undef,
+    lazy     => 1,
+    default  => sub ($self) {
+      $self->module_filename =~ s/\.pm$/\/Lib.pm/r;
+    },
+  );
+
+  has test_filename => (
+    is       => 'ro',
+    isa      => 'Str',
+    init_arg => undef,
+    lazy     => 1,
+    default  => sub ($self) {
+      't/' . lc($self->module_package =~ s/::/_/gr) . ".t";
+    },
   );
 
   sub munge_files ($self)
   {
     my($dist_ini) = grep { $_->name eq 'dist.ini' } @{ $self->zilla->files };
     $self->log_fatal("unable to find dist.ini") unless defined $dist_ini;
+
+    $self->log("Munge: @{[ $dist_ini->name ]}");
 
     my $code = $dist_ini->code;
 
@@ -73,48 +93,62 @@ package Dist::Zilla::Plugin::FFI::Mint {
 
   sub gather_files ($self)
   {
-    $self->lib_filename($self->module_filename =~ s/\.pm$/\/Lib.pm/r);
-    $self->lib_package($self->module_package . "::Lib");
+    $self->log("Generate: @{[ $self->lib_filename ]}");
+    $self->add_file(
+      Dist::Zilla::File::InMemory->new({
+        name    => $self->lib_filename,
+        content => <<~"END",
+          package @{[ $self->lib_package ]};
 
-    my $file = Dist::Zilla::File::InMemory->new({
-      name    => $self->lib_filename,
-      content => <<~"END",
-        package @{[ $self->lib_package ]};
+          use strict;
+          use warnings;
+          use FFI::CheckLib 0.28 qw( find_lib );
 
-        use strict;
-        use warnings;
-        use FFI::CheckLib 0.28 qw( find_lib );
+          sub lib {
+            find_lib lib => '@{[ $self->lib_name ]}', alien => '@{[ $self->alien_name ]}';
+          }
 
-        sub lib {
-          find_lib lib => '@{[ $self->lib_name ]}', alien => '@{[ $self->alien_name ]}';
-        }
+          1;
 
-        1;
+          =head1 NAME
 
-        =head1 NAME
+          @{[ $self->lib_package ]} - Private class for @{[ $self->module_package ]}
 
-        @{[ $self->lib_package ]} - Private class for @{[ $self->module_package ]}
+          =head1 SYNOPSIS
 
-        =head1 SYNOPSIS
+           perldoc @{[ $self->module_package ]}
 
-         perldoc @{[ $self->module_package ]}
+          =head1 DESCRIPTION
 
-        =head1 DESCRIPTION
+          This class is private.
 
-        This class is private.
+          =head1 SEE ALSO
 
-        =head1 SEE ALSO
+          =over 4
 
-        =over 4
+          =item @{[ $self->module_package ]}
 
-        =item @{[ $self->module_package ]}
+          =back
 
-        =back
+          =cut
+          END
+      })
+    );
 
-        =cut
-        END
-    });
-    $self->add_file($file);
+    $self->log("Generate: @{[ $self->test_filename ]}");
+    $self->add_file(
+      Dist::Zilla::File::InMemory->new({
+        name    => $self->test_filename,
+        content => <<~"END",
+          use Test2::V0;
+          use @{[ $self->module_package ]};
+
+          ok 1;
+
+          done_testing;
+          END
+      }),
+    );
   }
 
   sub make_module ($self, $arg)
