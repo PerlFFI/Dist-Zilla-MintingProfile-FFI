@@ -34,6 +34,7 @@ subtest 'basic' => sub {
     dist.ini
     lib/Foo/FFI.pm
     lib/Foo/FFI/Lib.pm
+    t/foo_ffi.t
   )], 'minted the correct files';
 
 };
