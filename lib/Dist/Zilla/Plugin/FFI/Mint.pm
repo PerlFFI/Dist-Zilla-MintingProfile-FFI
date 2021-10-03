@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use 5.026;
+use 5.020;
 
 package Dist::Zilla::Plugin::FFI::Mint {
 
@@ -97,41 +97,41 @@ package Dist::Zilla::Plugin::FFI::Mint {
     $self->add_file(
       Dist::Zilla::File::InMemory->new({
         name    => $self->lib_filename,
-        content => <<~"END1",
-          package @{[ $self->lib_package ]};
+        content => <<"END1",
+package @{[ $self->lib_package ]};
 
-          use strict;
-          use warnings;
-          use FFI::CheckLib 0.28 qw( find_lib );
+use strict;
+use warnings;
+use FFI::CheckLib 0.28 qw( find_lib );
 
-          sub lib {
-            find_lib lib => '@{[ $self->lib_name ]}', alien => '@{[ $self->alien_name ]}';
-          }
+sub lib {
+  find_lib lib => '@{[ $self->lib_name ]}', alien => '@{[ $self->alien_name ]}';
+}
 
-          1;
+1;
 
-          =head1 NAME
+=head1 NAME
 
-          @{[ $self->lib_package ]} - Private class for @{[ $self->module_package ]}
+@{[ $self->lib_package ]} - Private class for @{[ $self->module_package ]}
 
-          =head1 SYNOPSIS
+=head1 SYNOPSIS
 
-           perldoc @{[ $self->module_package ]}
+ perldoc @{[ $self->module_package ]}
 
-          =head1 DESCRIPTION
+=head1 DESCRIPTION
 
-          This class is private.
+This class is private.
 
-          =head1 SEE ALSO
+=head1 SEE ALSO
 
-          =over 4
+=over 4
 
-          =item @{[ $self->module_package ]}
+=item @{[ $self->module_package ]}
 
-          =back
+=back
 
-          =cut
-          END1
+=cut
+END1
       })
     );
 
@@ -139,14 +139,14 @@ package Dist::Zilla::Plugin::FFI::Mint {
     $self->add_file(
       Dist::Zilla::File::InMemory->new({
         name    => $self->test_filename,
-        content => <<~"END2",
-          use Test2::V0;
-          use @{[ $self->module_package ]};
+        content => <<"END2",
+use Test2::V0;
+use @{[ $self->module_package ]};
 
-          ok 1;
+ok 1;
 
-          done_testing;
-          END2
+done_testing;
+END2
       }),
     );
   }
@@ -159,37 +159,37 @@ package Dist::Zilla::Plugin::FFI::Mint {
 
     my $file = Dist::Zilla::File::InMemory->new({
       name => $self->module_filename,
-      content => <<~"END3",
-        package @{[ $self->module_package ]};
+      content => <<"END3",
+package @{[ $self->module_package ]};
 
-        use strict;
-        use warnings;
-        use FFI::Platypus 1.00;
-        use @{[ $self->module_package ]}::Lib;
+use strict;
+use warnings;
+use FFI::Platypus 1.00;
+use @{[ $self->module_package ]}::Lib;
 
-        my \$ffi = FFI::Platypus->new(
-          api => 1,
-          lib => [@{[ $self->module_package ]}::Lib->lib],
-        );
+my \$ffi = FFI::Platypus->new(
+  api => 1,
+  lib => [@{[ $self->module_package ]}::Lib->lib],
+);
 
-        #\$ffi->attach( ... );
+#\$ffi->attach( ... );
 
-        1;
+1;
 
-        =head1 NAME
+=head1 NAME
 
-        @{[ $self->module_package ]} - Bindings for ...
+@{[ $self->module_package ]} - Bindings for ...
 
-        =head1 SYNOPSIS
+=head1 SYNOPSIS
 
-         ...
+ ...
 
-        =head1 DESCRIPTION
+=head1 DESCRIPTION
 
-        ...
+...
 
-        =cut
-        END3
+=cut
+END3
     });
     $self->add_file($file);
   }

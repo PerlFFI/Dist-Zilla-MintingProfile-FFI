@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use 5.026;
+use 5.020;
 use experimental qw( postderef );
 
 package Dist::Zilla::MintingProfile::FFI {
