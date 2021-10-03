@@ -97,7 +97,7 @@ package Dist::Zilla::Plugin::FFI::Mint {
     $self->add_file(
       Dist::Zilla::File::InMemory->new({
         name    => $self->lib_filename,
-        content => <<~"END",
+        content => <<~"END1",
           package @{[ $self->lib_package ]};
 
           use strict;
@@ -131,7 +131,7 @@ package Dist::Zilla::Plugin::FFI::Mint {
           =back
 
           =cut
-          END
+          END1
       })
     );
 
@@ -139,14 +139,14 @@ package Dist::Zilla::Plugin::FFI::Mint {
     $self->add_file(
       Dist::Zilla::File::InMemory->new({
         name    => $self->test_filename,
-        content => <<~"END",
+        content => <<~"END2",
           use Test2::V0;
           use @{[ $self->module_package ]};
 
           ok 1;
 
           done_testing;
-          END
+          END2
       }),
     );
   }
@@ -159,7 +159,7 @@ package Dist::Zilla::Plugin::FFI::Mint {
 
     my $file = Dist::Zilla::File::InMemory->new({
       name => $self->module_filename,
-      content => <<~"END",
+      content => <<~"END3",
         package @{[ $self->module_package ]};
 
         use strict;
@@ -189,7 +189,7 @@ package Dist::Zilla::Plugin::FFI::Mint {
         ...
 
         =cut
-        END
+        END3
     });
     $self->add_file($file);
   }
