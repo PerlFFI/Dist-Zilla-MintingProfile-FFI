@@ -1,7 +1,8 @@
 Revision history for {{$dist->name}}},
 
 {{$NEXT}}
-  - Fixed prereq bug where [@Starter] wasn't installed (gh#2)
+  - Fixed prereq bug where [@Starter] and [DynamicPrereqs] 
+    were not installed by default (gh#2)
 
 0.01      2021-10-02 21:20:33 -0600
   - initial version
